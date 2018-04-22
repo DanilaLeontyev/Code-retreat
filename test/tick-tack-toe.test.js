@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import Game from '../src/Tick-tack-toe';
 
+const computerName = 'computer';
 const userName = 'user';
 const computerMoveSymbol = 'o';
 const userMoveSymbol = 'x';
@@ -8,6 +9,11 @@ const initialGameBoard = [['', '', ''], ['', '', ''], ['', '', '']];
 let game;
 beforeEach(() => {
     game = new Game();
+});
+afterEach(() => {
+    let state = game.getState();
+    let history = game.getMoveHistory();
+    console.log(state, history);
 });
 describe('Game', () => {
     it('Should return empty game board', () => {
@@ -42,5 +48,10 @@ describe('Game', () => {
         const history = game.getMoveHistory();
 
         expect(history).to.deep.equal([{ turn: userName, x, y }]);
+    });
+    it('Game saves computers`s move in history', () => {
+        game.createComputerMoves();
+        const history = game.getMoveHistory();
+        expect(history).to.deep.equal([{ turn: computerName, x: 0, y: 0 }]);
     });
 });
