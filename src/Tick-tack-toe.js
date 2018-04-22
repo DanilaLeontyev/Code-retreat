@@ -2,6 +2,7 @@ import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 export default class Game {
     constructor() {
+        this._history = [{ turn: 'user', x: 1, y: 1 }];
         this._userMoveSymbol = 'x';
         this._computerMoveSymbol = 'o';
         this._board = [['', '', ''], ['', '', ''], ['', '', '']];
@@ -21,6 +22,9 @@ export default class Game {
         this._updateBoard(0, 0, {
             symbol: this._computerMoveSymbol
         });
+    }
+    getMoveHistory() {
+        return this._history;
     }
 
     _updateBoard(x, y, config = {}) {

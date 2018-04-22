@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import Game from '../src/Tick-tack-toe';
 
+const userName = 'user';
+const computerMoveSymbol = 'o';
 const userMoveSymbol = 'x';
 const initialGameBoard = [['', '', ''], ['', '', ''], ['', '', '']];
 let game;
@@ -30,6 +32,15 @@ describe('Game', () => {
         game.createComputerMoves();
         const board = game.getState();
 
-        expect(board[0][0]).to.equal('o');
+        expect(board[0][0]).to.equal(computerMoveSymbol);
+    });
+
+    it('Game saves user`s move in history', () => {
+        const x = 1,
+            y = 1;
+        game.acceptUserMove(x, y);
+        const history = game.getMoveHistory();
+
+        expect(history).to.deep.equal([{ turn: userName, x, y }]);
     });
 });
