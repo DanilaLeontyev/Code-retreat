@@ -8,6 +8,23 @@ const computerMoveSymbol = 'o';
 const userMoveSymbol = 'x';
 const initialGameBoard = [['', '', ''], ['', '', ''], ['', '', '']];
 let game;
+
+const fillCells = (game, config = {}) => {
+    const { x = -1, y = -1 } = config;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (i !== x || j !== y) game.acceptUserMove(i, j);
+        }
+    }
+};
+
+const count = (arr, symbol) => {
+    arr.reduce((result, row) => {
+        return row.reduce((count, el) => {
+            return el === symbol ? ++count : count;
+        }, result);
+    }, 0);
+};
 beforeEach(() => {
     game = new Game();
 });
@@ -65,5 +82,19 @@ describe('Game', () => {
 
         expect(board[1][1]).to.equal(computerMoveSymbol);
         stub.restore();
+    });
+    it('Computer moves in cell that is not taken', () => {
+        fillCells(game, { x: 2, y: 2 });
+        game.createComputerMoves();
+        const board = game.getState();
+
+        expect(count(board, userMoveSymbol)).to.equal(8);
+        expect(count(board, computerMoveSymbol)).to.equal(1);
+        expect(board[2][2]).to.equal(computerMoveSymbol);
+    });
+    it('If there are no free cells computer throws an exception', () => {
+        fillCells(game);
+        const func = game.createComputerMoves.bind(game);
+        expect(func).to.throw('no cells available');
     });
 });
