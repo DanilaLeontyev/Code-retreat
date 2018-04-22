@@ -4,8 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test":
-            "mocha --watch --compilers js:babel-core/register --recursive ./test/*.test.js*",
+        "test": "mocha --watch --compilers js:babel-core/register --recursive ./test/*.test.js*",
         "build": "babel src -d lib",
         "start": "babel-watch src/index.js"
     },
@@ -22,5 +21,8 @@
     },
     "optionalDependencies": {
         "fsevents": "*"
+    },
+    "dependencies": {
+        "sinon": "^4.5.0"
     }
 }

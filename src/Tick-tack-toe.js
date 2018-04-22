@@ -1,8 +1,11 @@
-import { ENGINE_METHOD_DIGESTS } from 'constants';
+// import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 export default class Game {
     constructor() {
         this._history = [];
+        this._userName = 'user';
+        this._computerName = 'computer';
+        this._fieldSize = 3;
         this._userMoveSymbol = 'x';
         this._computerMoveSymbol = 'o';
         this._board = [['', '', ''], ['', '', ''], ['', '', '']];
@@ -15,18 +18,31 @@ export default class Game {
         if (!this._isCellFree(x, y)) {
             return this._throwException('cell is already taken');
         }
-        this._history.push({ turn: 'user', x, y });
-        this._updateBoard(x, y);
+        this._updateHistory(this._userName, x, y);
+        this._updateBoard(x, y, {
+            symbol: this._userMoveSymbol
+        });
     }
 
     createComputerMoves() {
-        this._history.push({ turn: 'computer', x: 0, y: 0 });
-        this._updateBoard(0, 0, {
+        const x = this._getRandomCoordinate();
+        const y = this._getRandomCoordinate();
+
+        this._updateHistory(this._computerName, x, y);
+        this._updateBoard(x, y, {
             symbol: this._computerMoveSymbol
         });
     }
     getMoveHistory() {
         return this._history;
+    }
+
+    _updateHistory(turn, x, y) {
+        this._history.push({ turn, x, y });
+    }
+
+    _getRandomCoordinate() {
+        return Math.floor(Math.random() * (this._fieldSize - 0));
     }
 
     _updateBoard(x, y, config = {}) {
