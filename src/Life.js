@@ -1,3 +1,3 @@
-export function pow(x, y) {
-    return x ** y;
-}
+// export function pow(x, y) {
+//     return x ** y;
+// }
